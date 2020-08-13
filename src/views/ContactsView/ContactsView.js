@@ -17,7 +17,7 @@ const ContactsView = ({ isLoading }) => (
     </Section>
 
     <Section title="Contacts">
-      {isLoading && <Loader type="ThreeDots" color="#0037ec" width={100} className="loader" />}
+      {isLoading && <Loader type="ThreeDots" color="#0037ec" width={100} className="contacts-loader" />}
       <Filter />
 
       <ContactList />

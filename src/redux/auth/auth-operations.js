@@ -30,7 +30,8 @@ const token = {
 };
 
 const register = user => dispatch => {
-  dispatch(registerRequest);
+  dispatch(registerRequest());
+
   axios
     .post('/users/signup', user)
     .then(({ data }) => {
@@ -42,6 +43,7 @@ const register = user => dispatch => {
 
 const login = user => dispatch => {
   dispatch(loginRequest());
+
   axios
     .post('/users/login', user)
     .then(({ data }) => {
@@ -57,7 +59,8 @@ const login = user => dispatch => {
 };
 
 const logout = () => dispatch => {
-  dispatch(logoutRequest);
+  dispatch(logoutRequest());
+
   axios
     .post('/users/logout')
     .then(_ => {

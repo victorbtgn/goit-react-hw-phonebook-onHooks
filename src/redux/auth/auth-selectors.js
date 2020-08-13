@@ -6,4 +6,6 @@ const getAuthError = state => state.auth.error;
 
 const getTheme = state => state.auth.bgTheme;
 
-export default { getIsAuthenticated, getUserName, getAuthError, getTheme };
+const getIsLoading = state => state.auth.isLoading;
+
+export default { getIsAuthenticated, getUserName, getAuthError, getTheme, getIsLoading };

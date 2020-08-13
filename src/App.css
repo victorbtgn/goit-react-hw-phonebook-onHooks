@@ -2,8 +2,6 @@
   width: 100%;
   min-width: 320px;
   padding: 30px;
-  background: linear-gradient(to right, #dae1f8, #6379f8);
-  border-radius: 15px;
   position: relative;
   min-height: 100vh;
 }
@@ -45,7 +43,6 @@ header {
 
 .homeTitle {
   font-size: 50px;
-  color: #3f51b5;
   text-align: center;
   padding-top: 25vh;
 }
@@ -58,7 +55,6 @@ header {
 }
 
 .title {
-  color: #3f51b5;
   margin-bottom: 10px;
 }
 
@@ -91,15 +87,17 @@ input::-webkit-inner-spin-button {
 }
 
 .btn {
-  width: 100%;
+  width: 70%;
   height: 30px;
+  display: block;
+  margin: 0 auto;
   font-size: 16px;
   font-weight: 700;
-  color: #3f51b5;
+  color: #fafafa;
   padding: 0 10px;
-  border: 1px solid #3f51b5;
+  border: none;
   border-radius: 15px;
-  background: transparent;
+  background: #2196f3;
   transition: 0.3s linear;
 }
 
@@ -112,13 +110,13 @@ input::-webkit-inner-spin-button {
 }
 
 .btn:hover {
-  color: #fafafa;
-  background: #6b88e6;
+  width: 100%;
+  background: #2196f3;
   transition: 0.1s linear;
 }
 
 .btnContact:hover {
-  background: #6b88e6;
+  background: #2196f3;
   color: #fafafa;
   transition: 0.1s linear;
 }
@@ -133,7 +131,8 @@ input::-webkit-inner-spin-button {
   align-items: center;
   margin-bottom: 10px;
   padding: 5px 10px;
-  border: 1px solid #3f51b5;
+  background: #85858536;
+  border: 2px solid #2196f3;
   border-radius: 10px;
   transition: 0.1s linear;
 }
@@ -155,10 +154,18 @@ input::-webkit-inner-spin-button {
   color: #e96b04;
 }
 
-.loader {
+/* loaders */
+
+.contacts-loader {
   position: absolute;
   top: 310px;
   left: 320px;
+}
+
+.auth-loader {
+  position: absolute;
+  top: 180px;
+  left: 340px;
 }
 
 /* Toolbar theme */
@@ -170,7 +177,18 @@ input::-webkit-inner-spin-button {
 }
 
 .themeSwitchIcon {
-  color: currentColor;
   height: 26px;
-  fill: #dae1f8;
+  fill: #3f51b5;
+}
+
+/* Scroll bar */
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #dae1f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #2196f3;
+  border-radius: 5px;
 }

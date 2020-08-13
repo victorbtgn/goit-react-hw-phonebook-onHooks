@@ -1,16 +1,16 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import {
-  // registerRequest,
+  registerRequest,
   registerSuccess,
   registerError,
-  // loginRequest,
+  loginRequest,
   loginSuccess,
   loginError,
-  // logoutRequest,
+  logoutRequest,
   logoutSuccess,
   logoutError,
-  // getCurrentUserRequest,
+  getCurrentUserRequest,
   getCurrentUserSuccess,
   getCurrentUserError,
   changeTheme,
@@ -52,10 +52,26 @@ const bgTheme = createReducer(false, {
   [changeTheme]: (_, { payload }) => payload,
 });
 
+const isLoading = createReducer(false, {
+  [registerRequest]: () => true,
+  [loginRequest]: () => true,
+  [logoutRequest]: () => true,
+  [getCurrentUserRequest]: () => true,
+  [registerSuccess]: () => false,
+  [registerError]: () => false,
+  [loginSuccess]: () => false,
+  [loginError]: () => false,
+  [logoutSuccess]: () => false,
+  [logoutError]: () => false,
+  [getCurrentUserSuccess]: () => false,
+  [getCurrentUserError]: () => false,
+});
+
 export default combineReducers({
   user,
   token,
   error,
   isAuthenticated,
   bgTheme,
+  isLoading,
 });

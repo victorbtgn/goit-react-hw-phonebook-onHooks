@@ -53,6 +53,7 @@ class ContactList extends Component {
                   name={item.name}
                   number={item.number}
                   onDelete={() => this.props.onDelete(item.id)}
+                  isLigthTheme={this.props.theme}
                 />
               </div>
             )}
@@ -71,6 +72,7 @@ ContactList.propTypes = {
 const mapStateToProps = state => ({
   contacts: contactSelectors.getVisibleContacts(state),
   isAuthenticated: authSelectors.getIsAuthenticated(state),
+  theme: authSelectors.getTheme(state),
 });
 
 const mapDispatchToProps = dispatch => ({

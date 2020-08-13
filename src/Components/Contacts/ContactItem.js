@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const ContactItem = ({ id, name, number, onDelete }) => (
+const ContactItem = ({ id, name, number, onDelete, isLigthTheme }) => (
   <li className="list-item">
     <div className="list-item-data">
       <span>{name}:</span>
       <span>{convertStringToPhoneNumber(number)}</span>
     </div>
     <button className="btnContact" type="button" onClick={() => onDelete(id)}>
-      <DeleteIcon />
+      <DeleteIcon htmlColor={isLigthTheme ? '#dae1f8' : '#2e2e2e'} />
     </button>
   </li>
 );
