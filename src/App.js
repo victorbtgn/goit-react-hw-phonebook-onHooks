@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -19,36 +19,34 @@ import authSelectors from './redux/auth/auth-selectors';
 import { Spring } from 'react-spring/renderprops';
 import './App.css';
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onGetCurrentUser();
-  }
+function App({ isLoading, getCurrentUser }) {
+  useEffect(() => {
+    getCurrentUser();
+  }, [getCurrentUser]);
 
-  render() {
-    return (
-      <Container>
-        <Spring from={{ opacity: 0 }} to={{ opacity: 1 }} config={{ duration: 2000 }}>
-          {props => (
-            <div style={props}>
-              <AppBarView />
+  return (
+    <Container>
+      <Spring from={{ opacity: 0 }} to={{ opacity: 1 }} config={{ duration: 2000 }}>
+        {props => (
+          <div style={props}>
+            <AppBarView />
 
-              {!this.props.isLoading && (
-                <Suspense fallback={null}>
-                  <Switch>
-                    <Route exact path={routes.home} component={HomePage} />
-                    <PublicRoute path={routes.register} restricted redirectTo={routes.home} component={RegisterPage} />
-                    <PublicRoute path={routes.login} restricted redirectTo={routes.contacts} component={LoginPage} />
-                    <PrivateRoute path={routes.contacts} redirectTo={routes.login} component={ContactsView} />
-                    <Route component={HomePage} />
-                  </Switch>
-                </Suspense>
-              )}
-            </div>
-          )}
-        </Spring>
-      </Container>
-    );
-  }
+            {!isLoading && (
+              <Suspense fallback={null}>
+                <Switch>
+                  <Route exact path={routes.home} component={HomePage} />
+                  <PublicRoute path={routes.register} restricted redirectTo={routes.home} component={RegisterPage} />
+                  <PublicRoute path={routes.login} restricted redirectTo={routes.contacts} component={LoginPage} />
+                  <PrivateRoute path={routes.contacts} redirectTo={routes.login} component={ContactsView} />
+                  <Route component={HomePage} />
+                </Switch>
+              </Suspense>
+            )}
+          </div>
+        )}
+      </Spring>
+    </Container>
+  );
 }
 
 const mapStateToProps = state => ({
@@ -56,7 +54,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onGetCurrentUser: authOps.getCurrentUser,
+  getCurrentUser: authOps.getCurrentUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

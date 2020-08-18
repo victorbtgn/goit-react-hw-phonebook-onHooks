@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import ContactItem from './ContactItem';
 import { connect } from 'react-redux';
 import contactsOperations from '../../redux/contacts/contacts-operations';
@@ -8,15 +8,15 @@ import authSelectors from '../../redux/auth/auth-selectors';
 
 import { Transition } from 'react-spring/renderprops';
 
-class ContactList extends Component {
-  componentDidMount() {
-    this.props.fetchContacts();
-  }
+const ContactList = ({ contacts, theme, fetchContacts, onDelete }) => {
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
 
-  sortByName = () => {
-    if (this.props.contacts.length === 0) return false;
+  const sortByName = () => {
+    if (contacts.length === 0) return false;
 
-    return this.props.contacts.sort(function (a, b) {
+    return contacts.sort(function (a, b) {
       const nameA = a.name.toUpperCase();
       const nameB = b.name.toUpperCase();
 
@@ -31,38 +31,34 @@ class ContactList extends Component {
     });
   };
 
-  render() {
-    const sortContacts = this.sortByName();
-
-    return (
-      <ul className="list">
-        {sortContacts && (
-          <Transition
-            items={sortContacts}
-            keys={item => item.id}
-            from={{ transform: 'scaleY(0)', opacity: 0 }}
-            enter={{ transform: 'scaleY(1)', opacity: 1 }}
-            leave={{ transform: 'scaleY(2)', opacity: 0 }}
-            config={{ duration: 150 }}
-          >
-            {item => props => (
-              <div style={props}>
-                <ContactItem
-                  key={item.id}
-                  id={item.id}
-                  name={item.name}
-                  number={item.number}
-                  onDelete={() => this.props.onDelete(item.id)}
-                  isLigthTheme={this.props.theme}
-                />
-              </div>
-            )}
-          </Transition>
-        )}
-      </ul>
-    );
-  }
-}
+  return (
+    <ul className="list">
+      {sortByName() && (
+        <Transition
+          items={sortByName()}
+          keys={item => item.id}
+          from={{ transform: 'scaleY(0)', opacity: 0 }}
+          enter={{ transform: 'scaleY(1)', opacity: 1 }}
+          leave={{ transform: 'scaleY(2)', opacity: 0 }}
+          config={{ duration: 150 }}
+        >
+          {item => props => (
+            <div style={props}>
+              <ContactItem
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                number={item.number}
+                onDelete={() => onDelete(item.id)}
+                isLigthTheme={theme}
+              />
+            </div>
+          )}
+        </Transition>
+      )}
+    </ul>
+  );
+};
 
 ContactList.propTypes = {
   contacts: PropTypes.array.isRequired,
