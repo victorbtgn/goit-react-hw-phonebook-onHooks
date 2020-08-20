@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import ContactItem from './ContactItem';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import contactsOperations from '../../redux/contacts/contacts-operations';
 import contactSelectors from '../../redux/contacts/contacts-selectors';
-import PropTypes from 'prop-types';
 import authSelectors from '../../redux/auth/auth-selectors';
 
 import { Transition } from 'react-spring/renderprops';
 
-const ContactList = ({ contacts, theme, fetchContacts, onDelete }) => {
+export default function ContactList() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(contactSelectors.getVisibleContacts);
+  const theme = useSelector(authSelectors.getTheme);
+
   useEffect(() => {
-    fetchContacts();
-  }, [fetchContacts]);
+    dispatch(contactsOperations.fetchContacts());
+  }, [dispatch]);
 
   const sortByName = () => {
     if (contacts.length === 0) return false;
@@ -29,6 +32,10 @@ const ContactList = ({ contacts, theme, fetchContacts, onDelete }) => {
 
       return 0;
     });
+  };
+
+  const removeContact = id => {
+    dispatch(contactsOperations.deleteContact(id));
   };
 
   return (
@@ -49,7 +56,7 @@ const ContactList = ({ contacts, theme, fetchContacts, onDelete }) => {
                 id={item.id}
                 name={item.name}
                 number={item.number}
-                onDelete={() => onDelete(item.id)}
+                onDelete={() => removeContact(item.id)}
                 isLigthTheme={theme}
               />
             </div>
@@ -58,22 +65,4 @@ const ContactList = ({ contacts, theme, fetchContacts, onDelete }) => {
       )}
     </ul>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  contacts: contactSelectors.getVisibleContacts(state),
-  isAuthenticated: authSelectors.getIsAuthenticated(state),
-  theme: authSelectors.getTheme(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
-  onDelete: id => dispatch(contactsOperations.deleteContact(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+}

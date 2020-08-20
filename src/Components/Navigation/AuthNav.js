@@ -10,23 +10,23 @@ const theme = createMuiTheme({
   },
 });
 
-const AuthNav = () => (
-  <>
-    <NavLink exact to="/register" className="headerLink verticalBar" activeClassName="activeHeaderLink">
-      <ThemeProvider theme={theme}>
-        <Button variant="contained" color="primary">
-          Sign in
-        </Button>
-      </ThemeProvider>
-    </NavLink>
-    <NavLink exact to="/login" className="headerLink" activeClassName="activeHeaderLink">
-      <ThemeProvider theme={theme}>
-        <Button variant="contained" color="primary">
-          Log in
-        </Button>
-      </ThemeProvider>
-    </NavLink>
-  </>
-);
-
-export default AuthNav;
+export default function AuthNav() {
+  return (
+    <>
+      <NavLink exact to="/register" className="headerLink verticalBar" activeClassName="activeHeaderLink">
+        <ThemeProvider theme={theme}>
+          <Button variant="contained" color="primary">
+            Sign in
+          </Button>
+        </ThemeProvider>
+      </NavLink>
+      <NavLink exact to="/login" className="headerLink" activeClassName="activeHeaderLink">
+        <ThemeProvider theme={theme}>
+          <Button variant="contained" color="primary">
+            Log in
+          </Button>
+        </ThemeProvider>
+      </NavLink>
+    </>
+  );
+}

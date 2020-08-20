@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import authSelectors from '../../redux/auth/auth-selectors';
 import authOps from '../../redux/auth/auth-operations';
 
@@ -13,23 +13,22 @@ const theme = createMuiTheme({
   },
 });
 
-const UserMenu = ({ name, onLogout }) => (
-  <>
-    <span className="verticalBar">Welcome {name}</span>
-    <ThemeProvider theme={theme}>
-      <Button onClick={onLogout} variant="contained" size="small" color="primary">
-        Log out
-      </Button>
-    </ThemeProvider>
-  </>
-);
+export default function UserMenu() {
+  const dispatch = useDispatch();
+  const name = useSelector(authSelectors.getUserName);
 
-const mapStateToProps = state => ({
-  name: authSelectors.getUserName(state),
-});
+  const onLogout = () => {
+    dispatch(authOps.logout());
+  };
 
-const mapDispatchToProps = {
-  onLogout: authOps.logout,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
+  return (
+    <>
+      <span className="verticalBar">Welcome {name}</span>
+      <ThemeProvider theme={theme}>
+        <Button onClick={onLogout} variant="contained" size="small" color="primary">
+          Log out
+        </Button>
+      </ThemeProvider>
+    </>
+  );
+}

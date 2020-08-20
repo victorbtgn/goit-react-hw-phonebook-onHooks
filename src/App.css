@@ -183,12 +183,16 @@ input::-webkit-inner-spin-button {
 
 /* Scroll bar */
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 10px;
   background-color: #dae1f8;
-}
+} */
 
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
   background-color: #2196f3;
   border-radius: 5px;
+} */
+
+::-webkit-scrollbar {
+  width: 0;
 }

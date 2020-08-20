@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { changeTheme } from '../../redux/auth/auth-actions';
 import authSelectors from '../../redux/auth/auth-selectors';
 
@@ -44,12 +44,19 @@ const AntSwitch = withStyles(theme => ({
   checked: {},
 }))(Switch);
 
-const CustomizedSwitches = ({ checked, onChangeTheme }) => {
+export default function CustomizedSwitches() {
+  const dispatch = useDispatch();
+  const checked = useSelector(authSelectors.getTheme);
+
+  const onChangeTheme = evt => {
+    dispatch(changeTheme(evt));
+  };
+
   if (checked) {
     handleTheme(checked);
   }
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     checked: false,
   });
 
@@ -96,7 +103,7 @@ const CustomizedSwitches = ({ checked, onChangeTheme }) => {
       </Typography>
     </div>
   );
-};
+}
 
 const handleTheme = checked => {
   const body = document.querySelector('body');
@@ -108,13 +115,3 @@ const handleTheme = checked => {
     body.classList.remove('bodyLigth');
   }
 };
-
-const mapStateToProps = state => ({
-  checked: authSelectors.getTheme(state),
-});
-
-const mapDispatchToProps = {
-  onChangeTheme: e => changeTheme(e),
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomizedSwitches);

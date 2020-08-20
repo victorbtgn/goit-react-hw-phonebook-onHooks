@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import AppBarView from './views/AppBarView/AppBarView';
 import Container from './Common/Container';
@@ -19,10 +19,13 @@ import authSelectors from './redux/auth/auth-selectors';
 import { Spring } from 'react-spring/renderprops';
 import './App.css';
 
-function App({ isLoading, getCurrentUser }) {
+export default function App() {
+  const dispatch = useDispatch();
+  const isLoading = useSelector(authSelectors.getIsLoading);
+
   useEffect(() => {
-    getCurrentUser();
-  }, [getCurrentUser]);
+    dispatch(authOps.getCurrentUser());
+  }, [dispatch]);
 
   return (
     <Container>
@@ -35,9 +38,15 @@ function App({ isLoading, getCurrentUser }) {
               <Suspense fallback={null}>
                 <Switch>
                   <Route exact path={routes.home} component={HomePage} />
-                  <PublicRoute path={routes.register} restricted redirectTo={routes.home} component={RegisterPage} />
-                  <PublicRoute path={routes.login} restricted redirectTo={routes.contacts} component={LoginPage} />
-                  <PrivateRoute path={routes.contacts} redirectTo={routes.login} component={ContactsView} />
+                  <PublicRoute path={routes.register} restricted redirectTo={routes.home}>
+                    <RegisterPage />
+                  </PublicRoute>
+                  <PublicRoute path={routes.login} restricted redirectTo={routes.contacts}>
+                    <LoginPage />
+                  </PublicRoute>
+                  <PrivateRoute path={routes.contacts} redirectTo={routes.login}>
+                    <ContactsView />
+                  </PrivateRoute>
                   <Route component={HomePage} />
                 </Switch>
               </Suspense>
@@ -48,13 +57,3 @@ function App({ isLoading, getCurrentUser }) {
     </Container>
   );
 }
-
-const mapStateToProps = state => ({
-  isLoading: authSelectors.getIsLoading(state),
-});
-
-const mapDispatchToProps = {
-  getCurrentUser: authOps.getCurrentUser,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

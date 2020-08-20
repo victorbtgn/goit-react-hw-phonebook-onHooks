@@ -1,34 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/contacts/contacts-action';
 import contactSelectors from '../../redux/contacts/contacts-selectors';
-import PropTypes from 'prop-types';
 
-const Filter = ({ filter, contactsLength, onChange }) => (
-  <>
-    {contactsLength > 1 && (
-      <label>
-        Find contacts by name
-        <br />
-        <input type="text" name="filter" value={filter} className="input" onChange={onChange} />
-      </label>
-    )}
-  </>
-);
+export default function Filter() {
+  const dispatch = useDispatch();
+  const filter = useSelector(contactSelectors.getFilter);
+  const contactsLength = useSelector(contactSelectors.getContactsLength);
 
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  contactsLength: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+  const onChange = evt => {
+    dispatch(changeFilter(evt.target.value));
+  };
 
-const mapStateToProps = state => ({
-  filter: contactSelectors.getFilter(state),
-  contactsLength: contactSelectors.getContactsLength(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: e => dispatch(changeFilter(e.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+  return (
+    <>
+      {contactsLength > 1 && (
+        <label>
+          Find contacts by name
+          <br />
+          <input type="text" name="filter" value={filter} className="input" onChange={onChange} />
+        </label>
+      )}
+    </>
+  );
+}
